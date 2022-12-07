@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+    <header>
+        <div class="color">
+            <input type="radio" name="t" class="c" id="blue">
+            <input type="radio" name="t" class="c" id="red">
+            <input type="radio" name="t" class="c" id="green">
+            <input type="radio" name="t" class="c" id="black" checked>
+        </div>
+        <div class="button">
+            <div class="add" id="add">
+                <i class="fa-solid fa-plus"></i>
+            </div>
+                <input type="checkbox" name="delete" id="delet">
+                <label for="delet" class="del"><i class="fa-solid fa-trash"></i></label>
+        </div>
+    </header>
+    <div class="tickets" id="tt">
+        <!-- <div class="tick">
+            <div class="co"></div>
+            <div class="tag"></div>
+            <div class="cont"></div>
+        </div> -->
+    </div>
+
+    <div class="ticket" id="ttt">
+        <div class="text">
+            <textarea name="text" id="text" cols="30" rows="9" ></textarea>
+        </div>
+        <div class="col">
+            <input type="radio" name="t" class="c" id="blue2">
+            <input type="radio" name="t" class="c" id="red2">
+            <input type="radio" name="t" class="c" id="green2">
+            <input type="radio" name="t" class="c" id="black2" checked>
+        </div>
+    </div>
+    <script>
+        function add(){
+    var tex=document.getElementById("text");
+    var t=tex.value;
+    var col=document.querySelector("[name=t]:checked");
+    var colid=col.id;
+    var ticketscon=document.getElementById("tt");
+    var ticket=document.createElement("div");
+    ticket.className="tick";
+    ticket.innerHTML=`<div class="co"></div>
+    <div class="tag"></div>
+    <div class="cont"></div>`;
+    ticketscon.appendChild(ticket);
+    console.log(Math.floor(Math.random()*10000));
+    var tag="#"+Math.floor(Math.random()*10000);
+    ticket.children[1].innerText=tag;
+    ticket.children[0].style.backgroundColor=`${col.id.substring(0,col.id.length-1)}`;
+    ticket.children[2].innerText=t;
+    ticket.addEventListener("click",del);
+    ticks={
+        id:`${tag}`,
+        col:`${col.id.substring(0,col.id.length-1)}`,
+        con:`${t}`
+    }
+    arr.push(ticks);
+    localStorage.setItem('ticks',JSON.stringify(arr));
+}
+var arr=[];
+window.onload=dis();
+function dis(){
+    if(localStorage.getItem('ticks')!=null){
+        var a=JSON.parse(localStorage.getItem('ticks'));
+        var ticketscon=document.getElementById("tt");
+        a.forEach(element => {
+    var ticket=document.createElement("div");
+    ticket.className="tick";
+    ticket.innerHTML=`<div class="co"></div>
+    <div class="tag"></div>
+    <div class="cont"></div>`;
+    ticketscon.appendChild(ticket);
+    // console.log(Math.floor(Math.random()*10000));
+    // var tag="#"+Math.floor(Math.random()*10000);
+    ticket.children[1].innerText=element.id;
+    ticket.children[0].style.backgroundColor=`${element.col}`;
+    ticket.children[2].innerText=element.con;
+    ticket.addEventListener("click",del);
+    arr.push(element);
+        });
+    }
+}
+var ad=document.getElementById("add");
+ad.addEventListener("click",show);
+
+function show(){
+    document.getElementById("ttt").style.display="flex";
+}
+
+document.addEventListener("keypress",key);
+
+function key(e){
+    // console.log(e.key);
+    if(e.key=="Enter")
+    {
+        add();
+        hide();
+    }
+}
+
+function hide(){
+    document.getElementById("ttt").style.display="none";
+}
+
+function del(e){
+    console.log(e.target.parentElement);
+    if(document.getElementById("delet").checked==true)
+    {
+        e.target.parentElement.removeChild(e.target);
+    }
+}
+    </script>
+</body>
+</html>
